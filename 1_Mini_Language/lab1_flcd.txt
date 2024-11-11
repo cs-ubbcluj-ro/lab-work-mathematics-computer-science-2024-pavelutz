@@ -1,0 +1,117 @@
+alphabet:
+
+letters: (A-Z, a-z)
+digits: (0-9)
+symbols: underscore (_)
+
+
+lexical components:
+
+operators: +, -, *, /, :=, <, <=, =, >=
+separators: [, ], {, }, :, ;, whitespace
+
+
+reserved words: int, bool, if, else, while, do, read, write, program, var, const
+
+identifiers:
+
+-sequence of letters and digits, starting with a letter
+BNF notation:
+
+identifier ::= letter {letter | digit} 
+letter ::= "A" | "B" | ... | "Z" | "a" | "b" | ... | "z"
+digit ::= "0" | "1" | ... | "9"
+
+constants:
+
+int_const ::= [ "+" | "-" ] digit {digit} 
+
+bool_const ::= "true" | "false"
+
+
+
+
+
+syntax rules
+
+
+
+program structure:
+
+
+program ::= "program" identifier ";" decllist ";" cmpdstmt "."
+
+
+decllist ::= declaration | declaration ";" decllist 
+declaration ::= "var" identifier ":" type 
+type ::= "int" | "bool"
+
+
+
+cmpdstmt ::= "{" stmtlist "}"
+stmtlist ::= stmt | stmt ";" stmtlist
+
+
+stmt ::= simplstmt | structstmt 
+simplstmt ::= assignstmt | iostmt 
+structstmt ::= cmpdstmt | ifstmt | whilestmt
+
+
+assignstmt ::= identifier ":=" expression
+
+expression ::= term | expression "+" term | expression "-" term
+term ::= factor | term "*" factor | term "/" factor
+factor ::= "(" expression ")" | identifier | int_const | bool_const
+
+
+iostmt ::= "read" "(" identifier ")" | "write" "(" expression ")"
+
+
+ifstmt ::= "if" condition "then" stmt [ "else" stmt ]
+
+
+whilestmt ::= "while" condition "do" stmt
+
+
+condition ::= expression RELATION expression 
+RELATION ::= "<" | "<=" | "=" | ">=" | ">"
+
+
+
+
+
+
+
+prints all prime numbers less than k
+
+
+program PrimeFinder;
+
+var n : int;
+var k : int;
+var i : int;
+var is_prime : bool;
+
+{
+    read(k);
+    n := 2;
+
+    while n < k do
+    {
+        is_prime := true;
+        i := 2;
+
+        while i * i <= n do
+        {
+            if n % i = 0 then
+                is_prime := false;
+                break;
+            i := i + 1;
+        }
+
+        if is_prime = true then
+            write(n);
+
+        n := n + 1;
+    }
+}
